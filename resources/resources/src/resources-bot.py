@@ -33,7 +33,7 @@ def get_compatible_channels():
                 channel_ids.append(channel.id)
     return channel_ids
 
-@tasks.loop(seconds=5)
+@tasks.loop(minutes=15)
 async def called_once_an_hour():
     channel_ids = get_compatible_channels()
     for channel_id in channel_ids:
