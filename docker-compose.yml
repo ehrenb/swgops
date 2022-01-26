@@ -1,0 +1,30 @@
+version: '3'
+services:
+
+  # bots
+  
+  resources-bot:
+    image: discord-bots/resources:latest
+    depends_on:
+      - discord-bots-base
+    build:
+      context: ./resources
+    environment:
+      - DISCORD_TOKEN=$RESOURCES_BOT_DISCORD_TOKEN
+    volumes:
+      - ./data/resources:/home/discord/data
+    networks:
+      - discord-bots-net
+    command:
+      bash -c "python3 ./src/resources-bot.py"
+      # bash -c "tail -f /dev/null"
+
+  # dummy service for building base image
+  discord-bots-base:
+    build:
+      context: ./base
+    image: discord-bots/base
+    command: echo 'scaled'
+
+networks:
+  discord-bots-net:
